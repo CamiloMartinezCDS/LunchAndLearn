@@ -1,0 +1,103 @@
+type Restaurant @model
+  @auth(rules: [
+    # allow all authenticated users to read this type
+    { allow: private, operations: [read] },
+    # only the system admins can create and delete the restaurants
+    { allow: groups, groups: ["Admins"], operations: [create, delete] },
+    # only the owner of the restaurant to update it 
+    { allow: owner, ownerField: "owner", operations: [update] },
+  ])
+  {
+  id: ID!
+  name: String!
+  owner: String!
+  location: Location!
+  address: String
+  description: String
+  profilePicture: S3Object
+  menu: [MenuItem] @connection(keyName: "byRestaurant", fields: ["id"])
+}
+
+type MenuItem @model
+  @auth(rules: [
+    # allow all authenticated users to read this type
+    { allow: private, operations: [read] },
+  ])
+  @key(name: "byRestaurant", fields: ["restaurantId", "price"])
+  {
+  id: ID!
+  restaurantId: ID!
+  name: String!
+  price: Int!
+  ingredients: [String]
+  serves: Int
+}
+
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+type UserProfile @model
+  @auth(rules: [
+    # allow all authenticated users to read this type
+    { allow: private, operations: [read] },
+  ])
+  {
+  id: ID!
+  username: String!
+  email: String!
+  profilePicture: S3Object
+}
+
+type FriendRequest @model
+  @auth(rules: [
+    # allow every user to create, update, delete
+    { allow: owner },
+    # Authorize the update mutation and both queries.
+    { allow: owner, ownerField: "relates", operations: [update, read] }
+  ])
+  {
+  id: ID!
+  owner: String!
+  relates: [String!]
+  fromId: ID!
+  toId: ID!
+  status: FriendRequestStatus!
+}
+
+type Reservation @model {
+  id: ID!
+  restaurantId: ID!
+  attendants: [ID!]
+  arrivalDate: AWSDateTime!
+  dishes: [MenuItem] @connection(keyName: "byRestaurant", fields: ["restaurantId"])
+}
+
+enum FriendRequestStatus {
+  pending
+  accepted
+  rejected
+}
+
+type Location {
+  lat: Float!
+  lon: Float!
+}
+
+input CreateReservationInput {
+  restaurantId: ID!
+  attendants: [ID!]
+  arrivalDate: AWSDateTime!
+  dishes: [ID!]
+}
+
+# Operations: Queries, mutations and subscriptions
+type Query {
+  topDishes(ofRestaurant: ID!): [MenuItem] @function(name: "topDishes-${env}")
+}
+
+type Mutation {
+  bookReservation(input: CreateReservationInput): Reservation @function(name: "addReservation-${env}")
+}

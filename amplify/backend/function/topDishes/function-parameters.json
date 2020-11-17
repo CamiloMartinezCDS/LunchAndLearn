@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "storage": {
+      "MenuItem:@model(appsync)": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

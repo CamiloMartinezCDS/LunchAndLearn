@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "storage": {
+      "Restaurant:@model(appsync)": [
+        "read"
+      ],
+      "MenuItem:@model(appsync)": [
+        "read"
+      ],
+      "FriendRequest:@model(appsync)": [
+        "read"
+      ],
+      "Reservation:@model(appsync)": [
+        "create"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

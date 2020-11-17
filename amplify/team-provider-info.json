@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-lunchandlearn-dev-111032-authRole",
+      "UnauthRoleArn": "arn:aws:iam::633864264604:role/amplify-lunchandlearn-dev-111032-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::633864264604:role/amplify-lunchandlearn-dev-111032-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-lunchandlearn-dev-111032-deployment",
+      "UnauthRoleName": "amplify-lunchandlearn-dev-111032-unauthRole",
+      "StackName": "amplify-lunchandlearn-dev-111032",
+      "StackId": "arn:aws:cloudformation:us-west-2:633864264604:stack/amplify-lunchandlearn-dev-111032/0e03b1c0-25ba-11eb-b511-0660b4a22d75",
+      "AmplifyAppId": "d2rkidrvibz7jc"
+    },
+    "categories": {
+      "auth": {
+        "cognitoPools": {}
+      }
+    }
+  }
+}
